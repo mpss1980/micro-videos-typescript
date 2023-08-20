@@ -16,14 +16,14 @@ describe('UniqueEntityId Tests', () => {
         const id = '123e4567-e89b-12d3-a456-426614174000';
         const valueObject = new UniqueEntityId(id);
 
-        expect(valueObject.id).toBe(id);
+        expect(valueObject.value).toBe(id);
         expect(validateSpy).toHaveBeenCalled();
     });
 
     it('should generate a valid uuid if not passed any in constructor', () => {
         const valueObject = new UniqueEntityId();
 
-        expect(uuidValidate(valueObject.id)).toBeTruthy();
+        expect(uuidValidate(valueObject.value)).toBeTruthy();
         expect(validateSpy).toHaveBeenCalled();
     });
 })

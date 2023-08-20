@@ -1,6 +1,6 @@
-import {Category} from "./category";
 import {omit} from 'lodash';
-import UniqueEntityId from "../../../@shared/domain/unique-entity-id";
+import UniqueEntityId from "../../../@shared/domain/value-objects/unique-entity-id";
+import Category from "./category";
 
 describe('Category Tests', () => {
 

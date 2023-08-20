@@ -1,4 +1,4 @@
-import UniqueEntityId from "../../../@shared/domain/unique-entity-id";
+import UniqueEntityId from "../../../@shared/domain/value-objects/unique-entity-id";
 
 export type CategoryProperties = {
     name: string;
@@ -7,7 +7,7 @@ export type CategoryProperties = {
     createdAt?: Date;
 }
 
-export class Category {
+export default class Category {
     public readonly id: UniqueEntityId;
 
     constructor(public readonly props: CategoryProperties, id?: UniqueEntityId) {
