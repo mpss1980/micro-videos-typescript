@@ -1,4 +1,5 @@
 import UniqueEntityId from "../../../@shared/domain/value-objects/unique-entity-id";
+import Entity from "../../../@shared/domain/entitties/entity";
 
 export type CategoryProperties = {
     name: string;
@@ -7,11 +8,10 @@ export type CategoryProperties = {
     createdAt?: Date;
 }
 
-export default class Category {
-    public readonly id: UniqueEntityId;
+export default class Category extends Entity<CategoryProperties> {
 
     constructor(public readonly props: CategoryProperties, id?: UniqueEntityId) {
-        this.id = id || new UniqueEntityId();
+        super(props, id);
         this.description = this.props.description ?? null;
         this.isActive = this.props.isActive ?? true;
         this.props.createdAt = this.props.createdAt ?? new Date();

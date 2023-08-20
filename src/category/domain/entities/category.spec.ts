@@ -46,20 +46,20 @@ describe('Category Tests', () => {
 
     test('id field', () => {
         let category = new Category({name: 'Movie'});
-        expect(category.id).not.toBeNull();
-        expect(category.id).toBeInstanceOf(UniqueEntityId);
+        expect(category.uniqueEntityId).not.toBeNull();
+        expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
 
         category = new Category({name: 'Movie'}, null);
-        expect(category.id).not.toBeNull();
-        expect(category.id).toBeInstanceOf(UniqueEntityId);
+        expect(category.uniqueEntityId).not.toBeNull();
+        expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
 
         category = new Category({name: 'Movie'}, undefined);
-        expect(category.id).not.toBeNull();
-        expect(category.id).toBeInstanceOf(UniqueEntityId);
+        expect(category.uniqueEntityId).not.toBeNull();
+        expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
 
         category = new Category({name: 'Movie'}, new UniqueEntityId('123e4567-e89b-12d3-a456-426614174000'));
-        expect(category.id).not.toBeNull();
-        expect(category.id).toBeInstanceOf(UniqueEntityId);
+        expect(category.uniqueEntityId).not.toBeNull();
+        expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
     });
 
     test('name getter', () => {
