@@ -46,25 +46,28 @@ describe('Category Tests', () => {
 
     test('id field', () => {
         let category = new Category({name: 'Movie'});
-        expect(category.uniqueEntityId).not.toBeNull();
+        expect(category.id).not.toBeNull();
         expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
 
         category = new Category({name: 'Movie'}, null);
-        expect(category.uniqueEntityId).not.toBeNull();
+        expect(category.id).not.toBeNull();
         expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
 
         category = new Category({name: 'Movie'}, undefined);
-        expect(category.uniqueEntityId).not.toBeNull();
+        expect(category.id).not.toBeNull();
         expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
 
         category = new Category({name: 'Movie'}, new UniqueEntityId('123e4567-e89b-12d3-a456-426614174000'));
-        expect(category.uniqueEntityId).not.toBeNull();
+        expect(category.id).not.toBeNull();
         expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
     });
 
-    test('name getter', () => {
+    test('name getter and setter', () => {
         const category = new Category({name: 'Movie'});
         expect(category.name).toBe('Movie');
+
+        category['name'] = 'Other movie';
+        expect(category.name).toBe('Other movie');
     });
 
     test('description getter and setter', () => {
@@ -84,7 +87,7 @@ describe('Category Tests', () => {
         expect(category.description).toBeNull();
     });
 
-    test('isActive getter and setter', () => {
+    test('isActive getter', () => {
         let category = new Category({name: 'Movie'});
         expect(category.isActive).toBeTruthy();
 
@@ -94,13 +97,10 @@ describe('Category Tests', () => {
         category = new Category({name: 'Movie', isActive: false});
         expect(category.isActive).toBeFalsy();
 
-        category['isActive'] = true;
+        category = new Category({name: 'Movie', isActive: undefined});
         expect(category.isActive).toBeTruthy();
 
-        category['isActive'] = undefined;
-        expect(category.isActive).toBeTruthy();
-
-        category['isActive'] = null;
+        category = new Category({name: 'Movie', isActive: null});
         expect(category.isActive).toBeTruthy();
     });
 
@@ -111,6 +111,34 @@ describe('Category Tests', () => {
         const createdAt = new Date();
         category = new Category({name: 'Movie', createdAt});
         expect(category.createdAt).toBe(createdAt);
+    });
+
+    test('update method', () => {
+        const category = new Category({name: 'Movie'});
+        category.update('Other movie', 'Other movie category');
+
+        expect(category.name).toBe('Other movie');
+        expect(category.description).toBe('Other movie category');
+    });
+
+    test('activate method', () => {
+        let category = new Category({name: 'Movie', isActive: false});
+        category.activate();
+        expect(category.isActive).toBeTruthy();
+
+        category = new Category({name: 'Movie', isActive: true});
+        category.activate();
+        expect(category.isActive).toBeTruthy();
+    });
+
+    test('deactivate method', () => {
+        let category = new Category({name: 'Movie', isActive: false});
+        category.deactivate();
+        expect(category.isActive).toBeFalsy();
+
+        category = new Category({name: 'Movie', isActive: true});
+        category.deactivate();
+        expect(category.isActive).toBeFalsy();
     });
 
 });

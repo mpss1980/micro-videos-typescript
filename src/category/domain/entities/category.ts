@@ -13,20 +13,33 @@ export default class Category extends Entity<CategoryProperties> {
     constructor(public readonly props: CategoryProperties, id?: UniqueEntityId) {
         super(props, id);
         this.description = this.props.description ?? null;
-        this.isActive = this.props.isActive ?? true;
+        this.props.isActive = this.props.isActive ?? true;
         this.props.createdAt = this.props.createdAt ?? new Date();
+    }
+
+    update(name: string, description: string): void {
+        this.name = name;
+        this.description = description;
+    }
+
+    activate(): void {
+        this.props.isActive = true;
+    }
+
+    deactivate(): void {
+        this.props.isActive = false;
     }
 
     get name(): string {
         return this.props.name;
     }
 
-    get isActive(): boolean {
-        return this.props.isActive;
+    private set name(value: string) {
+        this.props.name = value;
     }
 
-    private set isActive(value: boolean) {
-        this.props.isActive = value ?? true;
+    get isActive(): boolean {
+        return this.props.isActive;
     }
 
     get description(): string {
