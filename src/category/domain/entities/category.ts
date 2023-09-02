@@ -4,9 +4,15 @@ export type CategoryProperties = {
     isActive?: boolean,
     createdAt?: Date,
 }
-export default class Category {
 
-    constructor(public readonly props: CategoryProperties) {
+export class CategoryId {
+    entityId: string;
+}
+
+export default class Category extends CategoryId{
+
+    constructor(public readonly props: CategoryProperties, entityId?: CategoryId) {
+        super();
         Category.validate(props);
         this.description = this.props.description;
         this.isActive = this.props.isActive ?? true;

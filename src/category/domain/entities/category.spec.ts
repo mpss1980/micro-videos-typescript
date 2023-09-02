@@ -1,4 +1,4 @@
-import Category from "./category";
+import Category, {CategoryId, CategoryProperties} from "./category";
 import {omit} from "lodash";
 
 describe('Category Unit Test', () => {
@@ -59,6 +59,21 @@ describe('Category Unit Test', () => {
         expect(category.props).toMatchObject({
             name: 'Movie',
             createdAt,
+        });
+    });
+
+    describe('id field', () => {
+        type CategoryData = { props: CategoryProperties, id?: CategoryId };
+        const arrange: CategoryData[] = [
+            {props: {name: 'Movie'}},
+            {props: {name: 'Movie'}, id: null},
+            {props: {name: 'Movie'}, id: undefined},
+            {props: {name: 'Movie'}, id: new CategoryId()},
+        ];
+
+        test.each(arrange)('When prop is %j', (item) => {
+            let category = new Category(item.props, item.id as any);
+            expect(category.entityId).toBeInstanceOf(CategoryId);
         });
     });
 });
