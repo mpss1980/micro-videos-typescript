@@ -1,8 +1,9 @@
 import Category, {CategoryProperties} from "./category";
 import {omit} from "lodash";
 import {validate as uuidValidate} from "uuid";
+import UniqueEntityId from "../../../@shared/domain/value-objects/unique-entity-id.vo";
 
-describe('Category Unit Test', () => {
+describe('Category', () => {
 
     beforeEach(() => {
         Category.validate = jest.fn();
@@ -64,17 +65,18 @@ describe('Category Unit Test', () => {
     });
 
     describe('id field', () => {
-        type CategoryData = { props: CategoryProperties, id?: string };
+        type CategoryData = { props: CategoryProperties, id?: UniqueEntityId };
         const arrange: CategoryData[] = [
             {props: {name: 'Movie'}},
             {props: {name: 'Movie'}, id: null},
             {props: {name: 'Movie'}, id: undefined},
-            {props: {name: 'Movie'}, id: '4e59fadb-1a98-4c19-aeb8-8c45d382abca'},
+            {props: {name: 'Movie'}, id: new UniqueEntityId()},
         ];
 
         test.each(arrange)('When prop is %j', (item) => {
             let category = new Category(item.props, item.id as any);
-            expect(uuidValidate(category.uniqueId)).toBeTruthy();
+            expect(category.id).not.toBeNull();
+            expect(category.entityId).toBeInstanceOf(UniqueEntityId);
         });
     });
 

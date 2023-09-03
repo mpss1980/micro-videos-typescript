@@ -1,13 +1,19 @@
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4, validate as uuidValidate } from 'uuid';
+import ValueObject from "./value-object";
+import InvalidUuidError from "../errors/invalid-uuid.error";
 
-export default class UniqueEntityIdValueObject {
-  private readonly _value: string;
+export default class UniqueEntityId extends ValueObject<string>{
 
-  constructor(value?: string) {
-    this._value = value ?? uuidv4();
+  constructor(readonly id?: string) {
+    super(id || uuidv4());
+    this.validate();
   }
 
-  get uniqueId(): string {
-    return this._value;
+  private validate() {
+    const isValid = uuidValidate(this.value);
+    if (!isValid) {
+        throw new InvalidUuidError();
+    }
   }
+
 }

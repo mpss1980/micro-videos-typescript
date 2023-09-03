@@ -1,5 +1,5 @@
-import UniqueEntityIdVo from "../../../@shared/domain/value-objects/unique-entity-id.vo";
-import UniqueEntityIdValueObject from "../../../@shared/domain/value-objects/unique-entity-id.vo";
+import Entity from "../../../@shared/domain/entity/entity";
+import UniqueEntityId from "../../../@shared/domain/value-objects/unique-entity-id.vo";
 
 export type CategoryProperties = {
     name: string,
@@ -8,10 +8,12 @@ export type CategoryProperties = {
     createdAt?: Date,
 }
 
-export default class Category extends UniqueEntityIdValueObject {
+export type CategoryPropsJson = Required<{id: string} & CategoryProperties>
 
-    constructor(public readonly props: CategoryProperties, entityId?: string) {
-        super(entityId);
+export default class Category extends Entity<UniqueEntityId, CategoryProperties, CategoryPropsJson > {
+
+    constructor(public readonly props: CategoryProperties, entityId?: UniqueEntityId) {
+        super(props, entityId ?? new UniqueEntityId());
         Category.validate(props);
         this.description = this.props.description;
         this.isActive = this.props.isActive ?? true;
@@ -66,5 +68,15 @@ export default class Category extends UniqueEntityIdValueObject {
 
     get createdAt() {
         return this.props.createdAt;
+    }
+
+    toJSON(): CategoryPropsJson {
+        return {
+            id: this.id.toString(),
+            name: this.name,
+            description: this.description,
+            isActive: this.isActive,
+            createdAt: this.createdAt,
+        }
     }
 }
