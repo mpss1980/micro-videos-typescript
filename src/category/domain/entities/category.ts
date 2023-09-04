@@ -8,12 +8,14 @@ export type CategoryProperties = {
     createdAt?: Date,
 }
 
-export type CategoryPropsJson = Required<{id: string} & CategoryProperties>
+export type CategoryPropsJson = Required<{id: string} & CategoryProperties>;
 
-export default class Category extends Entity<UniqueEntityId, CategoryProperties, CategoryPropsJson > {
+export class CategoryId extends UniqueEntityId {}
 
-    constructor(public readonly props: CategoryProperties, entityId?: UniqueEntityId) {
-        super(props, entityId ?? new UniqueEntityId());
+export default class Category extends Entity<CategoryId, CategoryProperties, CategoryPropsJson > {
+
+    constructor(public readonly props: CategoryProperties, entityId?: CategoryId) {
+        super(props, entityId ?? new CategoryId());
         Category.validate(props);
         this.description = this.props.description;
         this.isActive = this.props.isActive ?? true;

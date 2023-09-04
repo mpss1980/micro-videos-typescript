@@ -1,6 +1,5 @@
-import Category, {CategoryProperties} from "./category";
+import Category, {CategoryId, CategoryProperties} from "./category";
 import {omit} from "lodash";
-import {validate as uuidValidate} from "uuid";
 import UniqueEntityId from "../../../@shared/domain/value-objects/unique-entity-id.vo";
 
 describe('Category', () => {
@@ -65,18 +64,18 @@ describe('Category', () => {
     });
 
     describe('id field', () => {
-        type CategoryData = { props: CategoryProperties, id?: UniqueEntityId };
+        type CategoryData = { props: CategoryProperties, id?: CategoryId };
         const arrange: CategoryData[] = [
             {props: {name: 'Movie'}},
             {props: {name: 'Movie'}, id: null},
             {props: {name: 'Movie'}, id: undefined},
-            {props: {name: 'Movie'}, id: new UniqueEntityId()},
+            {props: {name: 'Movie'}, id: new CategoryId()},
         ];
 
         test.each(arrange)('When prop is %j', (item) => {
             let category = new Category(item.props, item.id as any);
             expect(category.id).not.toBeNull();
-            expect(category.entityId).toBeInstanceOf(UniqueEntityId);
+            expect(category.entityId).toBeInstanceOf(CategoryId);
         });
     });
 
